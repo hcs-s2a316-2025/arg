@@ -1,5 +1,5 @@
 // ファイルを変えたら VERSION を変える(古いキャッシュが消える)
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CACHE = `app-${VERSION}`;
 const FILES = [
   './', './index.html', './offline.html',

@@ -25,6 +25,14 @@
 
     <main id="messages" class="messages" aria-live="polite"></main>
 
+    <div id="iosBanner" class="ios-banner" hidden>
+      <div class="ios-text">
+        <strong>ホーム画面に追加</strong>すると、アプリのように使えます。<br>
+        下の共有ボタン <span class="share-icon" aria-hidden="true">⎋</span> を押して、<b>「ホーム画面に追加」</b>を選んでください。
+      </div>
+      <button id="iosClose" class="ios-close" aria-label="閉じる">×</button>
+    </div>
+
     <form id="form" class="composer" autocomplete="off">
       <input id="input" type="text" placeholder="メッセージを入力" enterkeyhint="send" maxlength="500">
       <button id="send" type="submit" disabled aria-label="送信">送信</button>

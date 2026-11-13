@@ -30,6 +30,38 @@ installBtn.addEventListener('click', async () => {
   installBtn.hidden = true;
 });
 
+// ===== iPhone向け: ホーム画面に追加の案内 =====
+// iPhoneは自動で追加画面を出せないので、やり方を案内する。閉じたら1週間出さない。
+const IOS_HIDE_KEY = 'ios-banner-hidden-until';
+const WEEK = 7 * 24 * 60 * 60 * 1000;
+const iosBanner = document.getElementById('iosBanner');
+
+function isIOS() {
+  const ua = navigator.userAgent;
+  // iPadOS は Macと名乗るので、タッチ有無でも判定する
+  return /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+function isSafari() {
+  // Chrome(CriOS)・Firefox(FxiOS)・Edge(EdgiOS)などを除く
+  return !/CriOS|FxiOS|EdgiOS|OPiOS|GSA/.test(navigator.userAgent);
+}
+function isStandalone() {
+  return navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
+}
+function hiddenNow() {
+  try {
+    return Date.now() < Number(localStorage.getItem(IOS_HIDE_KEY) || 0);
+  } catch { return false; }
+}
+
+if (isIOS() && isSafari() && !isStandalone() && !hiddenNow()) {
+  iosBanner.hidden = false;
+}
+document.getElementById('iosClose').addEventListener('click', () => {
+  iosBanner.hidden = true;
+  try { localStorage.setItem(IOS_HIDE_KEY, String(Date.now() + WEEK)); } catch { /* 保存できなくても閉じる */ }
+});
+
 // ===== チャット =====
 const STORAGE_KEY = 'chat-history-v1';
 const MAX_SAVED = 200;           // 保存する最大件数
